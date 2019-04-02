@@ -1,0 +1,28 @@
+.show
+{
+  opacity: 1;
+  transition: opacity 1000ms;
+}
+
+.hide
+{
+  opacity: 0;
+}
+
+#MAP_NAME:not(:empty)::before
+{
+	color: black;
+	content: "Map: ";
+}
+
+#WR_TP_TIME:not(:empty)::before
+{
+	color: black;
+	content: "TP WR: ";
+}
+
+#WR_PRO_TIME:not(:empty)::before
+{
+	color: black;
+	content: "PRO WR: ";
+}
