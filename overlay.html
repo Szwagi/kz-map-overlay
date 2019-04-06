@@ -5,6 +5,11 @@
 <script type="text/javascript" src="js/config.js"></script>
 
 <script>
+	const versionStr = "2.0.0";
+	console.log(`Map overlay V${versionStr} initialized`);
+</script>
+
+<script>
 	var mapInfo =
 	{
 		MAP_TIER: -1,
@@ -16,7 +21,9 @@
 	var timeInfo =
 	{
 		WR_TP_TIME: -1,
+		WR_TP_PLAYER: "",
 		WR_PRO_TIME: -1,
+		WR_PRO_PLAYER: "",
 		PB_TP_TIME: -1,
 		PB_PRO_TIME: -1
 	};
@@ -64,13 +71,15 @@
 			mapInfo.MAP_NAME = mapName;
 			
 			timeInfo.WR_TP_TIME = -1;
+			timeInfo.WR_TP_PLAYER = "";
 			timeInfo.WR_PRO_TIME = -1;
+			timeInfo.WR_PRO_PLAYER = "";
 			timeInfo.PB_TP_TIME = -1;
 			timeInfo.PB_PRO_TIME = -1;
 			
 			if (validMapPrefix)
 			{
-				SendAndCallFunc(`${apiUrl}/maps/name/${mapInfo.MAP_NAME}`, OnResponse, 0);
+				SendAndCallFunc(`${apiUrl}/maps/name/${mapInfo.MAP_NAME}`, OnResponse, "MAP_INFO");
 			}
 		}
 		
@@ -81,14 +90,16 @@
 			mapInfo.MAP_MODE = modeName;
 			
 			timeInfo.WR_TP_TIME = -1;
+			timeInfo.WR_TP_PLAYER = "";
 			timeInfo.WR_PRO_TIME = -1;
+			timeInfo.WR_PRO_PLAYER = "";
 			timeInfo.PB_TP_TIME = -1;
 			timeInfo.PB_PRO_TIME = -1;
 		}
 
 		if (heartbeatUpdate && !mapChanged && validMapPrefix && mapInfo.MAP_STATUS == -1)
 		{
-			SendAndCallFunc(`${apiUrl}/maps/name/${mapInfo.MAP_NAME}`, OnResponse, 0);
+			SendAndCallFunc(`${apiUrl}/maps/name/${mapInfo.MAP_NAME}`, OnResponse, "MAP_INFO");
 		}
 
 		if ((mapChanged || modeChanged || (heartbeatUpdate && mapInfo.MAP_STATUS == 1)) && validMapPrefix)
@@ -111,12 +122,14 @@
 			var TP_TIME_URL = baseRecordUrl + "&has_teleports=true";
 			var PRO_TIME_URL = baseRecordUrl + "&has_teleports=false";
 
-			SendAndCallFunc(TP_TIME_URL, OnResponse, 1, obj.provider.steamid);
-			SendAndCallFunc(PRO_TIME_URL, OnResponse, 2, obj.provider.steamid);
+			SendAndCallFunc(TP_TIME_URL, OnResponse, "WR_TP_TIME", obj.provider.steamid);
+			SendAndCallFunc(PRO_TIME_URL, OnResponse, "WR_PRO_TIME", obj.provider.steamid);
 		}
 	}
 	
 	//////////////////// HELPERS /////////////////////////
+	
+	// TODO: Separate debugging from main functionality
 	function DebugLog(buffer, color = "None", printSeparator = false)
 	{
 		if (!debugMode) return;
@@ -214,6 +227,8 @@
 	}
 
 	///////////////////// LISTENERS //////////////////////
+	
+	// TODO: Dont attempt to make queries whenever noHeartbeat() happens
 	function noHeartbeat()
 	{
 		document.getElementById("overlay").style.opacity = 0;
@@ -221,9 +236,6 @@
 	
 	function OnValue(target, prop, value)
 	{
-		var selector = "*";
-		const valueMap = mappings[prop];
-		
 		// We have some exceptions!
 		switch (prop)
 		{
@@ -240,10 +252,10 @@
 			case "PB_TP_TIME":
 			case "PB_PRO_TIME":
 			{
+				var timeType = "WR" + prop.substring(2);
+			
 				if (timeInfo[prop] != -1)
 				{
-					var timeType = "WR" + prop.substring(2);
-					
 					if (timeInfo[timeType] == timeInfo[prop])
 					{
 						value = -3;
@@ -256,29 +268,44 @@
 				}
 				else
 				{
-					var timeType = "WR" + prop.substring(2);
 					var wrValue = timeInfo[timeType];
 					value = wrValue == -1 ? -1 : -2;
 				}
 				break;
 			}
 		}
-		
-		var valueStr = valueMap[selector];
-		if (valueMap.hasOwnProperty(value))
-		{
-			selector = value;
-			valueStr = valueMap[value];
-		}
 
-		const css = valueMap[selector + ":css"] || "";
+		var css = "";
+		var selector = "*";
+		var valueTemplate = "{value}";
+		
+		if (mappings.hasOwnProperty(prop))
+		{
+			var map = mappings[prop];
+
+			if (map.hasOwnProperty(value))
+			{
+				selector = value;
+			}
+			
+			if (map.hasOwnProperty(selector))
+			{
+				valueTemplate = map[selector];
+			}
+
+			var cssSelector = selector + ":css";
+			if (map.hasOwnProperty(cssSelector))
+			{
+				css = map[cssSelector];
+			}
+		}
 
 		DebugLog("[I] Value mapping:", "teal");
 		DebugLog("[I] CSS: \"" + css + "\"", "red");
-		DebugLog("Prop: " + prop);
-		DebugLog("==> \"" + value + "\"", "lime");
+		DebugLog("Prop: " + prop + ` (${selector})`);
+		DebugLog("==> \"" + valueTemplate + "\"", "lime");
 
-		value = valueStr.replace("{value}", value);
+		value = valueTemplate.replace("{value}", value);
 		DebugLog("<== \"" + value + "\"", "lime", true);
 		SetElementText(prop, value, css);
 	}
@@ -303,30 +330,35 @@
 	{
 		switch(resultType)
 		{
-			case 0:
+			case "MAP_INFO":
 			{
 				mapInfo.MAP_TIER = data.difficulty;
 				mapInfo.MAP_STATUS = data.validated ? 1 : 0;
 				break;
 			}
 			
-			case 1:
-			case 2:
-			case 3:
-			case 4:
+			case "WR_TP_TIME":
+			case "WR_PRO_TIME":
+			case "PB_TP_TIME":
+			case "PB_PRO_TIME":
 			{
-				var prop = "";
-				if (resultType == 1) prop = "WR_TP_TIME";
-				else if (resultType == 2) prop = "WR_PRO_TIME";
-				else if (resultType == 3) prop = "PB_TP_TIME";
-				else if (resultType == 4) prop = "PB_PRO_TIME";
+				var timeExists = data[0] != null;
+				timeInfo[resultType] = timeExists ? data[0].time : -1;
 
-				timeInfo[prop] = data[0] != null ? data[0].time : -1;
-				
-				if (resultType == 1 || resultType == 2)
+				if (resultType.substring(0, 2) == "WR")
 				{
+					const playerProp = resultType.replace("TIME", "PLAYER");
+					var playerName = timeExists ? data[0].player_name : "";
+
+					if (playerName.length > 6)
+					{
+						playerName = playerName.substring(0, 6) + "...";
+					}
+
+					timeInfo[playerProp] = playerName;
+
 					const pbUrl = url + "&steamid64=" + steamid;
-					SendAndCallFunc(pbUrl, OnResponse, resultType + 2);
+					SendAndCallFunc(pbUrl, OnResponse, "PB" + resultType.substring(2));
 				}
 				break;
 			}
@@ -337,7 +369,7 @@
 	{
 		switch (resultType)
 		{
-			case 0:
+			case "MAP_INFO":
 			{
 				mapInfo.MAP_TIER = -1;
 				mapInfo.MAP_STATUS = 0;
@@ -360,12 +392,14 @@
 	<tr>
 		<td id="TP_ROW">
 			<span id="WR_TP_TIME"></span>
+			<span id="WR_TP_PLAYER"></span>
 			<span id="PB_TP_TIME"></span>
 		</td>
 	</tr>
 	<tr>
 		<td id="PRO_ROW">
 			<span id="WR_PRO_TIME"></span>
+			<span id="WR_PRO_PLAYER"></span>
 			<span id="PB_PRO_TIME"></span>
 		</td>
 	</tr>
