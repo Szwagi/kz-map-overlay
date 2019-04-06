@@ -21,8 +21,20 @@
 	content: "TP WR: ";
 }
 
+#WR_TP_PLAYER:not(:empty):before
+{
+	color: black;
+	content: "by ";
+}
+
 #WR_PRO_TIME:not(:empty)::before
 {
 	color: black;
 	content: "PRO WR: ";
+}
+
+#WR_PRO_PLAYER:not(:empty)::before
+{
+	color: black;
+	content: "by ";
 }
