@@ -11,48 +11,47 @@ const validMaps = [ "kz", "xc", "bkz", "skz", "vnl", "kzpro" ];
 
 const mappings =
 {
-	"MAP_NAME":
-	{
-		"*": "{value}"
-	},
-	"MAP_MODE":
-	{
-		"*": "({value})",
-		"-1": ""
-	},
-	"MAP_TIER":
-	{
-		"-1": "",
-		"*": "(T{value})"
-	},
-	"MAP_STATUS":
-	{
-		"*": "",
-		"0": "*",
-	},
-	"WR_TP_TIME":
-	{
-		"*": "{value}",
-		"-1": ""
-	},
-	"WR_PRO_TIME":
-	{
-		"*": "{value}",
-		"-1": ""
-	},
-	"PB_TP_TIME":
-	{
-		"*": "({value})",
-		"-1": "",
-		"-2": "(No PB)",
-		"-3": "(I have WR)"
-	},
-	"PB_PRO_TIME":
-	{
-		"*": "({value})",
-		"-1": "",
-		"-2": "(No PB)",
-		"-3": "(I have WR)",
-		"-3:css": "color: green"
-	}
+    "MAP_MODE":
+    {
+        "*": "({value}",
+        "-1": ""
+    },
+    "MAP_TIER":
+    {
+        "-1": "",
+        "*": ", T{value})"
+    },
+    "MAP_STATUS":
+    {
+        "*": "",
+        "0": "- NON GLOBAL)",
+    },
+    "WR_TP_TIME":
+    {
+        "-1": ""
+    },
+    "WR_PRO_TIME":
+    {
+        "-1": ""
+    },
+    "PB_TP_TIME":
+    {
+        "*": "({value})",
+        "-1": "",
+        "-2": "(No PB)",
+        "-3": "(WR by me)",
+        "*:css": "color: #FF7F7F",
+        "-2:css": "color: #B3668C",
+        "-3:css": "color: #32CD32"
+    },
+    "PB_PRO_TIME":
+    {
+        "*": "({value})",
+        "-1": "",
+        "-2": "(No PB)",
+        "-3": "(WR by me)",
+        "*:css": "color: #FF7F7F",
+        "-2:css": "color: #B3668C",
+        "-3:css": "color: #32CD32"
+    }
 };
