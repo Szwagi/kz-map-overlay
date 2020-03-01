@@ -42,7 +42,7 @@
 
 	var lastTimestamp = -1;
 	var heartbeatTimer = null;
-	var ws = new WebSocket(wsUrl);
+	var ws = new WebSocket(wsUrl, protocol ? [protocol] : []);
 	
 	ws.onopen = () => ws.send("");
 	ws.onmessage = (evt) =>
