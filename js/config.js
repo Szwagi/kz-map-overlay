@@ -1,11 +1,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 // - heartbeatInterval should be set to the same as your (client) GSI config
 // - websocketUrl should be set to the address & port your GSI server is hosted
+// - protocol should be set to be your authentication token, if your GSI server
+//            uses one
 ////////////////////////////////////////////////////////////////////////////////
 const debugMode = false;
 const heartbeatInterval = 30;
 const wsUrl = "ws://localhost:4001/";
 const apiUrl = "http://kztimerglobal.com/api/v1.0";
+const protocol = null;
 
 const validMaps = [ "kz", "xc", "bkz", "skz", "vnl", "kzpro" ];
 
