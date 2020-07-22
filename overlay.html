@@ -5,7 +5,7 @@
 <script type="text/javascript" src="js/config.js"></script>
 
 <script>
-	const versionStr = "2.0.0";
+	const versionStr = "2.0.1";
 	console.log(`Map overlay V${versionStr} initialized`);
 </script>
 
@@ -42,7 +42,7 @@
 
 	var lastTimestamp = -1;
 	var heartbeatTimer = null;
-	var ws = new WebSocket(wsUrl);
+	var ws = new WebSocket(wsUrl, protocol ? [protocol] : []);
 	
 	ws.onopen = () => ws.send("");
 	ws.onmessage = (evt) =>
