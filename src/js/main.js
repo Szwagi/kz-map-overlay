@@ -4,7 +4,7 @@ import template from "conf/template";
 import Logger from "./logger";
 import ApiHTTPClient from "./apiclient";
 
-import { getMapPrefix, getMapPrettyName, ifAnyUndefined, sleep } from "./utils";
+import { getMapPrefix, getMapPrettyName, ifAnyUndefined } from "./utils";
 
 const logger = new Logger({
   enableDebug: config.debugMode,
@@ -158,7 +158,10 @@ const app = new Vue({
       }
 
       if (!this.map?.validated) {
-        this.records = null;
+        this.tpWr = null;
+        this.tpPb = null;
+        this.proWr = null;
+        this.proPb = null;
         return;
       }
 
