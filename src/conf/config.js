@@ -24,7 +24,7 @@ const overlayConfig = {
 
   /*
     "apiClientBaseUrl" - Base url for retrieving "global" statistics from.
-    "apiClientCacheLifetime" - Cache lifetime for http queries, in milliseconds.
+    "apiClientCacheLifetime" - Cache lifetime for http queries, in seconds.
   */
   apiClientBaseUrl: "http://kztimerglobal.com/api/v2.0",
   apiClientCacheLifetime: 25,
