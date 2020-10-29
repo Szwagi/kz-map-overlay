@@ -6,10 +6,9 @@ A Vue-powered overlay intended for CSGO KZ streamers.
 
 ### Installation
 
-1. Make sure below requirements are met.
-2. Download and install [GSISocket](https://bitbucket.org/Sikarii/gsisocket).
-3. Download the [latest release](https://bitbucket.org/Sikarii/kz-map-overlay/downloads).
-4. Add `index.html` to your streaming software as a browser source.
+1. Download and install [GSISocket](https://bitbucket.org/Sikarii/gsisocket).
+2. Download the [latest release](https://bitbucket.org/Sikarii/kz-map-overlay/downloads).
+3. Add `index.html` to your streaming software as a browser source.
 
 ### Configuration
 
