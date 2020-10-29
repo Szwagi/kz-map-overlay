@@ -15,7 +15,7 @@ const overlayConfig = {
     wsEndpoint: Local or remote host to your WebSocket server.
     wsProtocols: String or array of protocols to add when connecting
   */
-  wsEndpoint: "ws://localhost:4000",
+  wsEndpoint: "ws://localhost:4001",
   wsProtocols: [],
 
   dataFetchInterval: 30,
