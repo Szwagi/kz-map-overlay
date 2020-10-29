@@ -23,7 +23,7 @@ const apiClient = new ApiHTTPClient({
 
 logger.DoInfo(`kz-map-overlay v${version}`);
 
-removeExpiredCacheEntries();
+setInterval(removeExpiredCacheEntries, 60000);
 
 const app = new Vue({
   el: "#overlay",

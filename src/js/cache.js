@@ -31,10 +31,14 @@ export const isExpiredCacheEntry = (entry) => {
 
 export const removeExpiredCacheEntries = () => {
   const cacheKeys = Object.keys(sessionStorage);
+  const secondsNow = Math.floor(Date.now() / 1000);
 
   for (const key of cacheKeys) {
     const entry = getCacheEntry(key);
-    if (isExpiredCacheEntry(entry)) {
+    const expiredSeconds = Math.abs(secondsNow - entry.expires);
+
+    // 5 minutes
+    if (expiredSeconds >= 300) {
       removeCacheEntry(key);
     }
   }
