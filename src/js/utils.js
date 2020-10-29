@@ -5,11 +5,3 @@ export function getMapPrefix(mapName) {
 export function getMapPrettyName(fullMapName) {
   return fullMapName.split("/").pop();
 }
-
-export function ifAnyUndefined(varsArray) {
-  return varsArray.some((v) => v === undefined);
-}
-
-export function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
