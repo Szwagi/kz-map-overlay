@@ -28,3 +28,14 @@ export const isExpiredCacheEntry = (entry) => {
 
   return entry.expires < Math.floor(Date.now() / 1000);
 };
+
+export const removeExpiredCacheEntries = () => {
+  const cacheKeys = Object.keys(sessionStorage);
+
+  for (const key of cacheKeys) {
+    const entry = getCacheEntry(key);
+    if (isExpiredCacheEntry(entry)) {
+      removeCacheEntry(key);
+    }
+  }
+};

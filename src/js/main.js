@@ -6,8 +6,8 @@ import { version } from "../../package.json";
 import Logger from "./logger";
 import ApiHTTPClient from "./apiclient";
 
+import { removeExpiredCacheEntries } from "./cache";
 import { getMapPrefix, getMapPrettyName } from "./utils";
-import { getCacheEntry, removeCacheEntry, isExpiredCacheEntry } from "./cache";
 
 const logger = new Logger({
   enableDebug: config.debugMode,
@@ -23,15 +23,7 @@ const apiClient = new ApiHTTPClient({
 
 logger.DoInfo(`kz-map-overlay v${version}`);
 
-// Clear potential expired entries
-const cacheKeys = Object.keys(localStorage);
-
-for (const key of cacheKeys) {
-  const entry = getCacheEntry(key);
-  if (isExpiredCacheEntry(entry)) {
-    removeCacheEntry(key);
-  }
-}
+removeExpiredCacheEntries();
 
 const app = new Vue({
   el: "#overlay",
