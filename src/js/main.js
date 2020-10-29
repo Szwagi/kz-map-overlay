@@ -5,6 +5,7 @@ import Logger from "./logger";
 import ApiHTTPClient from "./apiclient";
 
 import { getMapPrefix, getMapPrettyName } from "./utils";
+import { getCacheEntry, removeCacheEntry, isExpiredCacheEntry } from "./cache";
 
 const logger = new Logger({
   enableDebug: config.debugMode,
@@ -17,6 +18,16 @@ const apiClient = new ApiHTTPClient({
     cacheLifetime: config.apiClientCacheLifetime,
   },
 });
+
+// Clear potential expired entries
+const cacheKeys = Object.keys(localStorage);
+
+for (const key of cacheKeys) {
+  const entry = getCacheEntry(key);
+  if (isExpiredCacheEntry(entry)) {
+    removeCacheEntry(key);
+  }
+}
 
 const app = new Vue({
   el: "#overlay",

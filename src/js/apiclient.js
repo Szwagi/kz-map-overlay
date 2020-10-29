@@ -1,3 +1,5 @@
+import { getCacheEntry, setCacheEntry, isExpiredCacheEntry } from "./cache";
+
 export default class ApiHTTPClient {
   constructor(options) {
     this.options = {
@@ -80,8 +82,9 @@ const cachedFetch = async (url, options, queryParams) => {
   let cacheKey = url.toString();
   let expiry = options.client.cacheLifetime;
 
-  if (!IsExpiredCacheEntry(cacheKey)) {
-    let cacheEntry = GetCacheEntry(cacheKey);
+  const cacheEntry = getCacheEntry(cacheKey);
+
+  if (!isExpiredCacheEntry(cacheEntry)) {
     options.logger?.DoDebug("HTTP cache hit!", { cacheKey, cacheEntry });
     return cacheEntry.data;
   }
@@ -97,39 +100,11 @@ const cachedFetch = async (url, options, queryParams) => {
     let data = await response.json();
     options.logger?.DoDebug("HTTP success", { url, data });
 
-    SetCacheEntry(cacheKey, data, expiry);
+    setCacheEntry(cacheKey, data, expiry);
     return data;
   } catch (err) {
     // probably abort?
     options.logger?.DoError("HTTP error", err);
     return null;
   }
-};
-
-const GetCacheEntry = (key) => {
-  let data = sessionStorage.getItem(key);
-  if (!data) {
-    return null;
-  }
-
-  return JSON.parse(data);
-};
-
-const SetCacheEntry = (key, value, lifetimeSeconds) => {
-  sessionStorage.setItem(
-    key,
-    JSON.stringify({
-      data: value,
-      expires: Math.floor(Date.now() / 1000) + lifetimeSeconds,
-    })
-  );
-};
-
-const IsExpiredCacheEntry = (key) => {
-  let entry = GetCacheEntry(key);
-  if (!entry) {
-    return true;
-  }
-
-  return entry.expires < Math.floor(Date.now() / 1000);
 };
