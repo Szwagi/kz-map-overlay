@@ -79,9 +79,7 @@ const cachedFetch = async (url, options, queryParams) => {
     url.search = new URLSearchParams(queryParams);
   }
 
-  let cacheKey = url.toString();
-  let expiry = options.client.cacheLifetime;
-
+  const cacheKey = url.toString();
   const cacheEntry = getCacheEntry(cacheKey);
 
   if (!isExpiredCacheEntry(cacheEntry)) {
@@ -92,15 +90,15 @@ const cachedFetch = async (url, options, queryParams) => {
   options.logger?.DoDebug("HTTP cache miss!", { cacheKey });
 
   try {
-    let response = await fetch(url, options.fetch);
+    const response = await fetch(url, options.fetch);
     if (!response.ok) {
       return undefined;
     }
 
-    let data = await response.json();
+    const data = await response.json();
     options.logger?.DoDebug("HTTP success", { url, data });
 
-    setCacheEntry(cacheKey, data, expiry);
+    setCacheEntry(cacheKey, data, options.client.cacheLifetime);
     return data;
   } catch (err) {
     // probably abort?
