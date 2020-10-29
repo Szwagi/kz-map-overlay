@@ -1,6 +1,8 @@
 import config from "conf/config";
 import template from "conf/template";
 
+import { version } from "../../package.json";
+
 import Logger from "./logger";
 import ApiHTTPClient from "./apiclient";
 
@@ -18,6 +20,8 @@ const apiClient = new ApiHTTPClient({
     cacheLifetime: config.apiClientCacheLifetime,
   },
 });
+
+logger.DoInfo(`kz-map-overlay v${version}`);
 
 // Clear potential expired entries
 const cacheKeys = Object.keys(localStorage);
