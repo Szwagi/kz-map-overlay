@@ -3,7 +3,6 @@ Vue.component("record-row", {
 
   data() {
     return {
-      maxName: 7,
       loadingImage: "assets/loading.gif",
     };
   },
