@@ -1,4 +1,5 @@
 import copy from "rollup-plugin-copy";
+import json from "@rollup/plugin-json";
 import babel from "@rollup/plugin-babel";
 
 const config = {
@@ -16,6 +17,7 @@ const config = {
     },
   ],
   plugins: [
+    json(),
     babel({ babelHelpers: "bundled" }),
     copy({
       targets: [{ src: "src/*", dest: "build" }],
