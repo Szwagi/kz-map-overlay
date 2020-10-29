@@ -20,8 +20,10 @@ const config = {
     json(),
     babel({ babelHelpers: "bundled" }),
     copy({
-      targets: [{ src: "src/*", dest: "build" }],
-      //targets: [{ src: ["src/*", "!src/js"], dest: "build" }],
+      targets: [
+        { src: ["src/js/app.js"], dest: "build/js" },
+        { src: ["src/*", "!src/js"], dest: "build" },
+      ],
     }),
   ],
 };
