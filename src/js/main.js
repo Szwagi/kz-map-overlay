@@ -4,7 +4,7 @@ import template from "conf/template";
 import Logger from "./logger";
 import ApiHTTPClient from "./apiclient";
 
-import { getMapPrefix, getMapPrettyName, ifAnyUndefined } from "./utils";
+import { getMapPrefix, getMapPrettyName } from "./utils";
 
 const logger = new Logger({
   enableDebug: config.debugMode,
@@ -44,7 +44,8 @@ const app = new Vue({
     modeName: "onModeChange",
   },
   mounted() {
-    this.onMapChange();
+    this.mapName = this.config.defaultMapName;
+    this.modeName = this.config.defaultModeName;
 
     if (this.config.debugMode) {
       this.steamId = this.config.debugPlayer;
@@ -54,7 +55,7 @@ const app = new Vue({
       const ws = new WebSocket(this.config.wsEndpoint, this.config.wsProtocols);
 
       ws.onopen = (evt) => {
-        ws.send("");
+        ws.send(""); // GSISocket requires this
         logger.DoInfo("WebSocket connected", { ws, evt });
       };
 
@@ -92,7 +93,7 @@ const app = new Vue({
     },
 
     nubWr: function () {
-      if (ifAnyUndefined([this.tpWr, this.proWr])) {
+      if (this.tpWr === undefined || this.proWr === undefined) {
         return undefined;
       }
 
@@ -100,7 +101,7 @@ const app = new Vue({
     },
 
     nubPb: function () {
-      if (ifAnyUndefined([this.tpPb, this.proPb])) {
+      if (this.tpPb === undefined || this.proPb === undefined) {
         return undefined;
       }
 
@@ -116,6 +117,10 @@ const app = new Vue({
         this.map = this.mapIsKz ? undefined : null;
       }
 
+      this.invalidateRecords();
+    },
+
+    invalidateRecords: function () {
       const state = this.mapIsKz && this.globalMode ? undefined : null;
       this.tpWr = state;
       this.tpPb = state;
