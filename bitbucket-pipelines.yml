@@ -15,10 +15,8 @@ pipelines:
             - cd build
             - apt-get update
             - apt-get install -y zip
-            - zip -r ../builds/kz-map-overlay-latest.zip .
-            - cp ../builds/kz-map-overlay-latest.zip ../builds/kz-map-overlay-v${BITBUCKET_TAG}.zip
-            - zip -r ../builds/kz-map-overlay-latest-upgrade.zip . -x css\* conf\*
-            - cp ../builds/kz-map-overlay-latest-upgrade.zip ../builds/kz-map-overlay-v${BITBUCKET_TAG}-upgrade.zip
+            - zip -r ../builds/kz-map-overlay-v${BITBUCKET_TAG}.zip .
+            - zip -r ../builds/kz-map-overlay-v${BITBUCKET_TAG}-upgrade.zip . -x css\* conf\*
       - step:
           trigger: manual
           script:
@@ -26,5 +24,3 @@ pipelines:
             - apt-get install -y curl
             - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"builds/kz-map-overlay-v${BITBUCKET_TAG}-upgrade.zip"
             - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"builds/kz-map-overlay-v${BITBUCKET_TAG}.zip"
-            - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"builds/kz-map-overlay-latest-upgrade.zip"
-            - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"builds/kz-map-overlay-latest.zip"
