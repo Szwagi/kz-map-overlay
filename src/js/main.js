@@ -89,7 +89,7 @@ const app = new Vue({
         );
 
         this.modeName = this.config.validKzModes.includes(data?.player?.clan)
-          ? clan
+          ? data?.player?.clan
           : config.defaultModeName;
       };
     }
