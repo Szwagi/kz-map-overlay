@@ -21,8 +21,6 @@ const overlayConfig = {
 
   dataFetchInterval: 30,
 
-  componentsToLoad: ["debug.vue.js", "record.vue.js"],
-
   /*
     "apiClientBaseUrl" - Base url for retrieving "global" statistics from.
     "apiClientCacheLifetime" - Cache lifetime for http queries, in seconds.
