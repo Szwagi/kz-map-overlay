@@ -1,10 +1,10 @@
 import config from "conf/config";
 import template from "conf/template";
 
-import { version } from "../../package.json";
-
 import Logger from "./logger";
 import ApiHTTPClient from "./apiclient";
+
+import { version } from "../../package.json";
 
 import { removeExpiredCacheEntries } from "./cache";
 import { getMapPrefix, getMapPrettyName } from "./utils";
@@ -21,7 +21,7 @@ const apiClient = new ApiHTTPClient({
   },
 });
 
-logger.DoInfo(`kz-map-overlay v${version}`);
+logger.DoInfo(`kz-map-overlay v${version}`, config);
 
 setInterval(removeExpiredCacheEntries, 60000);
 
