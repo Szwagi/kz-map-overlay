@@ -74,7 +74,9 @@ const app = new Vue({
         const data = JSON.parse(evt.data);
         logger.DoDebug("Websocket data received", { ws, data });
 
-        this.steamId = data?.player?.steamid;
+        this.steamId = this.config.showTimesFromSpectated
+          ? data?.player?.steamid
+          : data?.provider?.steamid;
 
         this.mapName = getMapPrettyName(
           data?.map?.name ?? this.config.defaultMapName

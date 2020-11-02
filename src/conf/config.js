@@ -10,6 +10,7 @@ const overlayConfig = {
   defaultModeName: "KZT",
 
   preferNubTimes: false,
+  showTimesFromSpectated: false,
 
   /*
     wsEndpoint: Local or remote host to your WebSocket server.
