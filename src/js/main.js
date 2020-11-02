@@ -32,7 +32,6 @@ const app = new Vue({
   data() {
     return {
       config: config,
-      fetchTimer: null,
 
       map: null,
 
@@ -44,6 +43,9 @@ const app = new Vue({
       steamId: "",
       mapName: config.defaultMapName,
       modeName: config.defaultModeName,
+
+      // Internal state
+      fetchTimer: null,
     };
   },
   watch: {
