@@ -2,7 +2,22 @@ import copy from "rollup-plugin-copy";
 import json from "@rollup/plugin-json";
 import babel from "@rollup/plugin-babel";
 
-const config = {
+const loader = {
+  input: "src/js/app.js",
+  output: {
+    file: "build/js/app.js",
+    format: "iife",
+  },
+  plugins: [
+    json(),
+    babel({ babelHelpers: "bundled" }),
+    copy({
+      targets: [{ src: ["src/js/app.js"], dest: "build/js" }],
+    }),
+  ],
+};
+
+const bundle = {
   input: "src/js/main.js",
   external: ["conf/config", "conf/template"],
   output: [
@@ -20,12 +35,9 @@ const config = {
     json(),
     babel({ babelHelpers: "bundled" }),
     copy({
-      targets: [
-        { src: ["src/js/app.js"], dest: "build/js" },
-        { src: ["src/*", "!src/js"], dest: "build" },
-      ],
+      targets: [{ src: ["src/*", "!src/js", "!src/data"], dest: "build" }],
     }),
   ],
 };
 
-export default config;
+export default [loader, bundle];

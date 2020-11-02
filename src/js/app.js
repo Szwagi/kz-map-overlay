@@ -1,3 +1,5 @@
+import defaultConfig from "../data/config_defaults.json";
+
 (async function () {
   function loadScript(scriptToLoad) {
     return new Promise((resolve, reject) => {
@@ -12,9 +14,16 @@
     });
   }
 
-  for (component of overlayConfig.componentsToLoad) {
-    await loadScript(`conf/components/${component}`);
-  }
+  Object.assign(overlayConfig, {
+    ...defaultConfig,
+    ...overlayConfig,
+  });
+
+  await Promise.all(
+    overlayConfig.componentsToLoad.map((c) =>
+      loadScript(`conf/components/${c}`)
+    )
+  );
 
   await loadScript("js/overlay-bundle.js");
 })();
