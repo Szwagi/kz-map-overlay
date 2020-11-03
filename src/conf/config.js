@@ -2,30 +2,31 @@ const overlayConfig = {
   debugMode: false,
   debugPlayer: "-1",
 
-  /*
-    defaultMapName: Map name when it is not available (i.e. main menu).
-    defaultModeName: Mode name when a matching clantag is not found, see validKzModes below.
-  */
+  // Map name when it is not available (i.e. main menu).
   defaultMapName: "Unknown map",
+
+  // Mode name when a matching clantag is not found, see validKzModes below.
   defaultModeName: "KZT",
 
+  // Whether to display "NUB" or "TP" times.
   preferNubTimes: false,
+
+  // Whether to show times of spectated players.
   showTimesFromSpectated: false,
 
-  /*
-    wsEndpoint: Local or remote host to your WebSocket server.
-    wsProtocols: String or array of protocols to add when connecting
-  */
+  // Local or remote host to your WebSocket server.
   wsEndpoint: "ws://localhost:4001",
+
+  // String or array of protocols to add when connecting.
   wsProtocols: [],
 
+  // Time in seconds on how often data is refreshed.
   dataFetchInterval: 30,
 
-  /*
-    "apiClientBaseUrl" - Base url for retrieving "global" statistics from.
-    "apiClientCacheLifetime" - Cache lifetime for http queries, in seconds.
-  */
+  // Base url for retrieving "global" statistics from.
   apiClientBaseUrl: "http://kztimerglobal.com/api/v2.0",
+
+  // Cache lifetime for http queries, in seconds.
   apiClientCacheLifetime: 25,
 
   // Clantags considered to be valid KZ modes.
