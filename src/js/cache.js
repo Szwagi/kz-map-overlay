@@ -35,7 +35,7 @@ export const removeExpiredCacheEntries = () => {
 
   for (const key of cacheKeys) {
     const entry = getCacheEntry(key);
-    const expiredSeconds = Math.abs(secondsNow - entry.expires);
+    const expiredSeconds = secondsNow - entry.expires;
 
     // 5 minutes
     if (expiredSeconds >= 300) {
