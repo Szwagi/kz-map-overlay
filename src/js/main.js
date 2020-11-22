@@ -46,10 +46,12 @@ const app = new Vue({
       modeName: config.defaultModeName,
     };
   },
+
   watch: {
     mapName: "onMapChange",
     modeName: "onModeChange",
   },
+
   mounted() {
     this.mapName = this.config.defaultMapName;
     this.modeName = this.config.defaultModeName;
@@ -88,7 +90,7 @@ const app = new Vue({
   },
   computed: {
     mapPrefix: function () {
-      return getMapPrefix(this.mapName);
+      return getMapPrefix(this.mapName).toLowerCase();
     },
 
     mapIsKz: function () {
