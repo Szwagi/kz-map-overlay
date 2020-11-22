@@ -3,6 +3,7 @@ Vue.component("record-row", {
 
   data() {
     return {
+      maxName: 7,
       loadingImage: "assets/loading.gif",
     };
   },
@@ -27,34 +28,36 @@ Vue.component("record-row", {
   },
 
   template: `
-    <div class="record-row">
-      <span :class="label.toLowerCase() + '-record-header'">{{label}} |</span>
-
-      <img
-        v-if="wr === undefined"
-        class="loading-indicator"
-        :src="loadingImage"
-      />
-
-      <div v-else style="display: inline">
-        <span>{{formatTime(wr.time)}} by</span>
-        <span class="record-player-name">{{wr.player_name}}</span>
+    <tr class="record-row">
+      <td>
+        <span :class="label.toLowerCase() + '-record-header'">{{label}} |</span>
 
         <img
-          v-if="pb === undefined"
+          v-if="wr === undefined"
           class="loading-indicator"
           :src="loadingImage"
         />
 
-        <div v-else-if="pb" style="display: inline">
-          <span v-if="pb.time === wr.time" class="record-time-wr"
-            >(WR by me)
-          </span>
-          <span v-else class="record-time-diff"
-            >(+{{formatTime(pb.time - wr.time)}})
-          </span>
+        <div v-else style="display: inline">
+          <span>{{formatTime(wr.time)}} by</span>
+          <span class="record-player-name">{{wr.player_name}}</span>
+
+          <img
+            v-if="pb === undefined"
+            class="loading-indicator"
+            :src="loadingImage"
+          />
+
+          <div v-else-if="pb" style="display: inline">
+            <span v-if="pb.time === wr.time" class="record-time-wr"
+              >(WR by me)
+            </span>
+            <span v-else class="record-time-diff"
+              >(+{{formatTime(pb.time - wr.time)}})
+            </span>
+          </div>
         </div>
-      </div>
-    </div>
+      </td>
+    </tr>
   `,
 });

@@ -1,39 +1,45 @@
 const overlayTemplate = `
 <div class="overlay">
-  <span class="map-name">{{mapName}}</span>
+  <table>
+    <tr>
+      <td>
+        <span class="map-name">{{mapName}}</span>
 
-  <img
-    v-if="map === undefined"
-    class="loading-indicator"
-    src="assets/loading.gif"
-  />
+        <img
+          v-if="map === undefined"
+          class="loading-indicator"
+          src="assets/loading.gif"
+        />
 
-  <span v-else-if="map && map.validated">
-    {{modeName}} / T{{map.difficulty}}
-  </span>
+        <span v-else-if="map && map.validated">
+          {{modeName}} / T{{map.difficulty}}
+        </span>
 
-  <span v-else-if="mapIsKz">{{modeName}} / NON GLOBAL</span>
+        <span v-else-if="mapIsKz">{{modeName}} / NON GLOBAL</span>
+      </td>
+    </tr>
 
-  <record-row
-    v-if="map && proWr !== null"
-    :pb="proPb"
-    :wr="proWr"
-    label="PRO"
-  ></record-row>
+    <record-row
+      v-if="map && proWr !== null"
+      :wr="proWr"
+      :pb="proPb"
+      label="PRO"
+    ></record-row>
 
-  <record-row
-    v-if="map && tpWr !== null && !config.preferNubTimes"
-    :pb="tpPb"
-    :wr="tpWr"
-    label="TP"
-  ></record-row>
+    <record-row
+      v-if="map && tpWr !== null && !config.preferNubTimes"
+      :wr="tpWr"
+      :pb="tpPb"
+      label="TP"
+    ></record-row>
 
-  <record-row
-    v-if="map && nubWr !== null && config.preferNubTimes"
-    :wr="nubWr"
-    :pb="nubPb"
-    label="NUB"
-  ></record-row>
+    <record-row
+      v-if="map && nubWr !== null && config.preferNubTimes"
+      :wr="nubWr"
+      :pb="nubPb"
+      label="NUB"
+    ></record-row>
+  </table>
 
   <debug-table
     v-if="config.debugMode"

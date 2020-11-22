@@ -1,10 +1,10 @@
 import config from "conf/config";
 import template from "conf/template";
 
+import { version } from "../../package.json";
+
 import Logger from "./logger";
 import ApiHTTPClient from "./apiclient";
-
-import { version } from "../../package.json";
 
 import { removeExpiredCacheEntries } from "./cache";
 import { getMapPrefix, getMapPrettyName } from "./utils";
@@ -21,7 +21,7 @@ const apiClient = new ApiHTTPClient({
   },
 });
 
-logger.DoInfo(`kz-map-overlay v${version}`, config);
+logger.DoInfo(`kz-map-overlay v${version}`);
 
 setInterval(removeExpiredCacheEntries, 60000);
 
@@ -32,6 +32,7 @@ const app = new Vue({
   data() {
     return {
       config: config,
+      fetchTimer: null,
 
       map: null,
 
@@ -43,9 +44,6 @@ const app = new Vue({
       steamId: "",
       mapName: config.defaultMapName,
       modeName: config.defaultModeName,
-
-      // Internal state
-      fetchTimer: null,
     };
   },
   watch: {
@@ -76,9 +74,7 @@ const app = new Vue({
         const data = JSON.parse(evt.data);
         logger.DoDebug("Websocket data received", { ws, data });
 
-        this.steamId = this.config.showTimesFromSpectated
-          ? data?.player?.steamid
-          : data?.provider?.steamid;
+        this.steamId = data?.player?.steamid;
 
         this.mapName = getMapPrettyName(
           data?.map?.name ?? this.config.defaultMapName
@@ -101,10 +97,6 @@ const app = new Vue({
 
     globalMode: function () {
       return this.config.validKzGlobalModes[this.modeName];
-    },
-
-    tierPhrase: function () {
-      return this.config.tierPhrases[this.map?.difficulty] ?? "";
     },
 
     nubWr: function () {
