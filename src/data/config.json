@@ -79,5 +79,18 @@
       "SKZ": "kz_simple",
       "VNL": "kz_vanilla"
     }
+  },
+  {
+    "name": "tierPhrases",
+    "description": "Mappings of difficulties into 'phrases'",
+    "defaultValue": {
+      "1": "Easy",
+      "2": "Very Easy",
+      "3": "Medium",
+      "4": "Hard",
+      "5": "Very Hard",
+      "6": "Extreme",
+      "7": "Death"
+    }
   }
 ]

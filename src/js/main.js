@@ -103,6 +103,10 @@ const app = new Vue({
       return this.config.validKzGlobalModes[this.modeName];
     },
 
+    tierPhrase: function () {
+      return this.config.tierPhrases[this.map?.difficulty] ?? "";
+    },
+
     nubWr: function () {
       if (this.tpWr === undefined || this.proWr === undefined) {
         return undefined;
