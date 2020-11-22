@@ -1,5 +1,5 @@
 export function getMapPrefix(mapName) {
-  return mapName.includes("_") ? mapName.split("_")[0] : "Unknown prefix";
+  return mapName.includes("_") ? mapName.split("_")[0] : "";
 }
 
 export function getMapPrettyName(fullMapName) {
