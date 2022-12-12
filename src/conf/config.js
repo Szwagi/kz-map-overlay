@@ -26,7 +26,7 @@ const overlayConfig = {
     "apiClientBaseUrl" - Base url for retrieving "global" statistics from.
     "apiClientCacheLifetime" - Cache lifetime for http queries, in seconds.
   */
-  apiClientBaseUrl: "http://kztimerglobal.com/api/v2.0",
+  apiClientBaseUrl: "https://kztimerglobal.com/api/v2.0",
   apiClientCacheLifetime: 25,
 
   // Clantags considered to be valid KZ modes.
