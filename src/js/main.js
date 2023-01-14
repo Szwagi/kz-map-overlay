@@ -82,8 +82,9 @@ const app = new Vue({
           data?.map?.name ?? this.config.defaultMapName
         );
 
-        this.modeName = this.config.validKzModes.includes(data?.player?.clan)
-          ? data?.player?.clan
+        const clan = data?.player?.clan.match('[A-Z]{3}')?.[0];
+        this.modeName = this.config.validKzModes.includes(clan)
+          ? clan
           : config.defaultModeName;
       };
     }
